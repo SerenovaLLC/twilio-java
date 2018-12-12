@@ -30,6 +30,7 @@ public class Request {
     private final Map<String, List<String>> queryParams;
     private final Map<String, List<String>> postParams;
 
+    private static final String TWILIO_API = "TWILIO_API";
     private String username;
     private String password;
 
@@ -71,7 +72,7 @@ public class Request {
         final String region
     ) {
         this.method = method;
-        this.url = "https://" + Joiner.on(".").skipNulls().join(domain, region, "twilio", "com") + uri;
+        this.url = "https://" + System.getenv().get(TWILIO_API) + uri;
         this.queryParams = new HashMap<>();
         this.postParams = new HashMap<>();
     }
