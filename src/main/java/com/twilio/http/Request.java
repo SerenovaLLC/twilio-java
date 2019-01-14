@@ -8,6 +8,7 @@ import org.apache.commons.codec.binary.Base64;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URI;
@@ -19,6 +20,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.logging.FileHandler;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
 public class Request {
 
@@ -30,6 +34,7 @@ public class Request {
     private final Map<String, List<String>> queryParams;
     private final Map<String, List<String>> postParams;
 
+    private static final String TWILIO_API = "TWILIO_API";
     private String username;
     private String password;
 
@@ -70,8 +75,11 @@ public class Request {
         final String uri,
         final String region
     ) {
-        this.method = method;
-        this.url = "https://" + Joiner.on(".").skipNulls().join(domain, region, "twilio", "com") + uri;
+       this.method = method;
+       this.url = "https://" + System.getenv().get(TWILIO_API) + uri;
+
+      //Temporal Login
+      //mockGatewayLog(this.url);
         this.queryParams = new HashMap<>();
         this.postParams = new HashMap<>();
     }
@@ -272,5 +280,27 @@ public class Request {
                Objects.equals(this.password, other.password) &&
                Objects.equals(this.queryParams, other.queryParams) &&
                Objects.equals(this.postParams, other.postParams);
+    }
+    
+    public static void mockGatewayLog(String requestUrl) {
+    	  Logger logger = Logger.getLogger("MyLog");
+    	    FileHandler fh;
+
+    	    try {
+
+    	        // This block configure the logger with handler and formatter
+    	        fh = new FileHandler("/home/aalvarenga/temp/MockTwilio.log", true);
+    	        logger.addHandler(fh);
+    	        SimpleFormatter formatter = new SimpleFormatter();
+    	        fh.setFormatter(formatter);
+
+    	        // the following statement is used to log any messages
+    	        logger.info(requestUrl);
+
+    	    } catch (SecurityException e) {
+    	        e.printStackTrace();
+    	    } catch (IOException e) {
+    	        e.printStackTrace();
+    	    }
     }
 }
