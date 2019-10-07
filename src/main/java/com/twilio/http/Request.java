@@ -76,7 +76,7 @@ public class Request {
         final String region
     ) {
        this.method = method;
-       this.url = "https://" + System.getenv().get(TWILIO_API) + uri;
+       this.url = "https://" + System.getProperty(TWILIO_API, System.getenv().get(TWILIO_API)) + uri;
 
       //Temporal Login
       //mockGatewayLog(this.url);
