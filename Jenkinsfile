@@ -17,6 +17,6 @@ node () {
     }
 
     stage('publish') {
-        //todo
+        sh './gradlew publish'
     }
 }

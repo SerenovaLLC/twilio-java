@@ -4,24 +4,21 @@
 
 plugins {
     id 'java'
+    id 'maven-publish'
 }
+
+def releasesRepoUrl = "https://nexus.cxengagelabs.net/content/repositories/releases"
+def snapshotsRepoUrl = "https://nexus.cxengagelabs.net/content/repositories/snapshots"
 
 repositories {
     mavenLocal()
     maven {
-        url = 'https://nexus.cxengagelabs.net/content/repositories/snapshots'
+        url = snapshotsRepoUrl
         mavenContent {
-            snapshotsOnly()
-        }
-    }
+            snapshotsOnly() } }
 
-    maven {
-        url = 'https://nexus.cxengagelabs.net/content/repositories/thirdparty'
-    }
-
-    maven {
-        url = 'https://nexus.cxengagelabs.net/content/repositories/releases'
-    }
+    maven { url = 'https://nexus.cxengagelabs.net/content/repositories/thirdparty' }
+    maven { url = releasesRepoUrl }
 
     mavenCentral()
 }
@@ -42,9 +39,9 @@ dependencies {
 
 group = 'com.twilio.sdk'
 version = '7.33.0-ILITIES'
-description = 'twilio-java'
+description = 'twilio'
 sourceCompatibility = '1.7'
-def artifactId = 'twilio-java'
+def artifactName = 'twilio'
 
 configurations.all {
 }
@@ -65,6 +62,20 @@ tasks.withType(JavaCompile) {
 
 task export(type: WriteProperties) {
     properties = ["POM_VERSION": version,
-                  "POM_ARTIFACT_ID": artifactId]
+                  "POM_ARTIFACT_ID": artifactName]
     outputFile = file('export.properties')
+}
+
+publishing {
+    publications {
+        twilio(MavenPublication) {
+            from components.java
+        }
+    }
+
+    repositories {
+        maven {
+            url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
+        }
+    }
 }
