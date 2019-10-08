@@ -10,6 +10,12 @@ plugins {
 def releasesRepoUrl = "https://nexus.cxengagelabs.net/content/repositories/releases"
 def snapshotsRepoUrl = "https://nexus.cxengagelabs.net/content/repositories/snapshots"
 
+group = 'com.twilio.sdk'
+version = '7.33.0-1-ILITIES'
+description = 'twilio'
+sourceCompatibility = '1.7'
+def artifactName = 'twilio'
+
 repositories {
     mavenLocal()
     maven {
@@ -36,12 +42,6 @@ dependencies {
     testCompile 'org.jmockit:jmockit:1.12'
     testCompile 'junit:junit:4.11'
 }
-
-group = 'com.twilio.sdk'
-version = '7.33.0-ILITIES'
-description = 'twilio'
-sourceCompatibility = '1.7'
-def artifactName = 'twilio'
 
 configurations.all {
 }
