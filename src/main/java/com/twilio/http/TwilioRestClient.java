@@ -2,8 +2,12 @@ package com.twilio.http;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Predicate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class TwilioRestClient {
+
+    private static Logger logger = LoggerFactory.getLogger(TwilioRestClient.class);
 
     public static final int HTTP_STATUS_CODE_CREATED = 201;
     public static final int HTTP_STATUS_CODE_NO_CONTENT = 204;
@@ -39,6 +43,7 @@ public class TwilioRestClient {
      */
     public Response request(final Request request) {
         request.setAuth(username, password);
+        logger.debug(request.getMethod() + " " + request.getUrl());
         return httpClient.reliableRequest(request);
     }
 

@@ -11,7 +11,7 @@ def releasesRepoUrl = "https://nexus.cxengagelabs.net/content/repositories/relea
 def snapshotsRepoUrl = "https://nexus.cxengagelabs.net/content/repositories/snapshots"
 
 group = 'com.twilio.sdk'
-version = '7.33.0-1-ILITIES'
+version = '7.33.0-2-ILITIES'
 description = 'twilio'
 sourceCompatibility = '1.7'
 def artifactName = 'twilio'
